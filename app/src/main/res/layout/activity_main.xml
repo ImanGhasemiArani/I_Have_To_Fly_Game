@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/background"
+        android:scaleType="centerCrop"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="I Have To Fly!"
+        android:textSize="48sp"
+        android:textColor="@color/white"
+        android:layout_centerHorizontal="true"
+        android:layout_above="@id/play"
+        android:layout_below="@id/hightScore"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Play"
+        android:textSize="64sp"
+        android:textColor="@color/black"
+        android:layout_centerInParent="true"
+        android:id="@+id/play"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Hight Score"
+        android:textSize="24sp"
+        android:textColor="@color/black"
+        android:layout_alignParentRight="true"
+        android:id="@+id/hightScore"
+        android:layout_margin="16dp"/>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:src="@drawable/ic_baseline_volume_up_24"
+        android:layout_margin="16dp"
+        android:id="@+id/volumeCtrl"/>
+
+</RelativeLayout>
