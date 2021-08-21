@@ -3,7 +3,10 @@ package com.example.flying2dgame;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.view.MotionEvent;
 import android.view.SurfaceView;
+
+import java.util.ArrayList;
 
 public class GameView extends SurfaceView implements Runnable {
     private Thread gameThread;
@@ -13,6 +16,7 @@ public class GameView extends SurfaceView implements Runnable {
     private Paint paint;
     private Background background1, background2;
     private Flight flight;
+    private ArrayList<Bullet> bullets;
 
     public GameView(Context context, int screenX, int screenY) {
         super(context);
@@ -21,10 +25,14 @@ public class GameView extends SurfaceView implements Runnable {
         background1 = new Background(screenX, screenY, getResources());
         background2 = new Background(screenX, screenY, getResources());
         background2.x = screenX;
-        paint = new Paint();
         screenRatioX = 1920f / screenX;
         screenRatioY = 1080f / screenY;
-        flight = new Flight(screenY, getResources());
+
+        paint = new Paint();
+
+        flight = new Flight(this, screenY, getResources());
+
+        bullets = new ArrayList<>();
 
     }//Constructor method
 
@@ -63,15 +71,32 @@ public class GameView extends SurfaceView implements Runnable {
             flight.y = 0;
         if (flight.y > screenY - flight.height)
             flight.y = screenY - flight.height;
-        
+
+        ArrayList<Bullet> trashTemp = new ArrayList<>();
+        for (Bullet currentBullet : bullets) {
+            if (currentBullet.x > screenX)
+                trashTemp.add(currentBullet);
+
+            currentBullet.x +=  50 * screenRatioX;
+        }//if
+
+        for (Bullet bullet : trashTemp)
+            bullets.remove(bullet);
+
     }//update
 
     private void draw() {
         if (getHolder().getSurface().isValid()) {
             Canvas canvas = getHolder().lockCanvas();
+
             canvas.drawBitmap(background1.background, background1.x, background1.y, paint);
             canvas.drawBitmap(background2.background, background2.x, background2.y, paint);
+
             canvas.drawBitmap(flight.getFlight(), flight.x, flight.y, paint);
+
+            for (Bullet bullet : bullets )
+                canvas.drawBitmap(bullet.bullet, bullet.x, bullet.y, paint);
+
             getHolder().unlockCanvasAndPost(canvas);
         }//if
     }//draw
@@ -109,8 +134,18 @@ public class GameView extends SurfaceView implements Runnable {
                 break;
             case MotionEvent.ACTION_UP:
                 flight.isGoingUp = false;
+                if (event.getX() > screenX / 2f) {
+                    flight.toShoot++;
+                }
                 break;
         }
         return true;
     }
+
+    public void newBullet() {
+        Bullet bullet = new Bullet(getResources());
+        bullet.x = flight.x + flight.width;
+        bullet.y = flight.y + flight.height / 2;
+        bullets.add(bullet);
+    }//newBullet
 }//GameView
