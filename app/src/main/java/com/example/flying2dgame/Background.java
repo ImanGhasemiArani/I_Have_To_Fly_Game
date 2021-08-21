@@ -14,4 +14,4 @@ public class Background {
         background = BitmapFactory.decodeResource(res, R.drawable.background);
         background = Bitmap.createScaledBitmap(background, screenX, screenY, false);
     }//Constructor method
-}
+}//Background
