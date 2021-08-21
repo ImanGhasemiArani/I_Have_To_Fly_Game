@@ -6,6 +6,7 @@ import static com.example.flying2dgame.GameView.screenRatioY;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Rect;
 
 public class Bullet {
 
@@ -19,4 +20,8 @@ public class Bullet {
         height = (int) (bullet.getHeight() / 4 * screenRatioY);
         bullet = Bitmap.createScaledBitmap(bullet, width, height, false);
     }
+
+    public Rect getCollisionShape() {
+        return new Rect(x, y, x + width, y + height);
+    }//getCollisionShape
 }
